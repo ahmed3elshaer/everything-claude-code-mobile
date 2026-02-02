@@ -1,0 +1,56 @@
+{
+    "$schema": "../schemas/mcp-config.schema.json",
+    "name": "firebase-android",
+    "description": "Firebase services configuration for Android development",
+    "version": "1.0.0",
+    "servers": {
+        "firebase-cli": {
+            "description": "Firebase CLI for deployment and management",
+            "command": "npx",
+            "args": [
+                "-y",
+                "firebase-tools"
+            ],
+            "env": {
+                "FIREBASE_TOKEN": "${env:FIREBASE_TOKEN}"
+            },
+            "capabilities": [
+                "deploy",
+                "emulators",
+                "functions",
+                "hosting"
+            ]
+        },
+        "firestore": {
+            "description": "Firestore database operations",
+            "command": "npx",
+            "args": [
+                "-y",
+                "@anthropic/firestore-mcp"
+            ],
+            "optional": true
+        }
+    },
+    "tools": {
+        "firebase-deploy": {
+            "description": "Deploy to Firebase",
+            "examples": [
+                "firebase deploy --only functions",
+                "firebase deploy --only hosting"
+            ]
+        },
+        "firebase-emulators": {
+            "description": "Firebase local emulators",
+            "examples": [
+                "firebase emulators:start",
+                "firebase emulators:start --only firestore,auth"
+            ]
+        },
+        "app-distribution": {
+            "description": "Firebase App Distribution",
+            "examples": [
+                "firebase appdistribution:distribute app.apk --groups testers"
+            ]
+        }
+    }
+}

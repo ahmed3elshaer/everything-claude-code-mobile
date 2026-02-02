@@ -1,0 +1,11 @@
+{
+    "everything-claude-code-mobile": {
+        "name": "Everything Claude Code Mobile",
+        "description": "Complete Claude Code configs for mobile development - Android, iOS, and Kotlin Multiplatform",
+        "version": "0.0.1",
+        "source": {
+            "source": "github",
+            "repo": "ahmed3elshaer/everything-claude-code-mobile"
+        }
+    }
+}

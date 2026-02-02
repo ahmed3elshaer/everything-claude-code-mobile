@@ -1,0 +1,46 @@
+{
+    "hooks": [
+        {
+            "event": "Stop",
+            "description": "Extract patterns at session end for continuous learning",
+            "hooks": [
+                {
+                    "type": "command",
+                    "command": "node scripts/hooks/evaluate-session.js"
+                }
+            ]
+        },
+        {
+            "event": "PreCompact",
+            "description": "Save session context before compaction to preserve learned patterns",
+            "hooks": [
+                {
+                    "type": "command",
+                    "command": "node scripts/hooks/pre-compact.js"
+                }
+            ]
+        },
+        {
+            "event": "PostToolUse",
+            "matcher": "tool == \"Edit\" && tool_input.file_path matches \"\\\\.kt$\"",
+            "description": "Check Kotlin file for common anti-patterns after edits",
+            "hooks": [
+                {
+                    "type": "command",
+                    "command": "grep -n 'GlobalScope\\|!!\\|runBlocking' \"$file_path\" 2>/dev/null | head -5 || true"
+                }
+            ]
+        },
+        {
+            "event": "PostToolUse",
+            "matcher": "tool == \"Write\" && tool_input.file_path matches \"ViewModel\\\\.kt$\"",
+            "description": "Remind to add ViewModel tests after creating ViewModels",
+            "hooks": [
+                {
+                    "type": "message",
+                    "message": "📝 Remember: Create corresponding test file in src/test with TDD approach"
+                }
+            ]
+        }
+    ]
+}

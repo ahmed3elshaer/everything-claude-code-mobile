@@ -1,0 +1,53 @@
+{
+    "name": "everything-claude-code-mobile",
+    "version": "1.0.0",
+    "description": "Complete Claude Code configs for mobile development - Android, iOS, and Kotlin Multiplatform",
+    "repository": "https://github.com/affaan-m/everything-claude-code-mobile",
+    "author": "affaan-m",
+    "license": "MIT",
+    "agents": [
+        "agents/android-reviewer.md",
+        "agents/android-build-resolver.md",
+        "agents/compose-guide.md",
+        "agents/gradle-expert.md",
+        "agents/mobile-architect.md",
+        "agents/mobile-tdd-guide.md",
+        "agents/mobile-security-reviewer.md",
+        "agents/mobile-performance-reviewer.md",
+        "agents/mobile-e2e-runner.md"
+    ],
+    "commands": [
+        "commands/android-build.md",
+        "commands/android-test.md",
+        "commands/gradle-fix.md",
+        "commands/compose-preview.md",
+        "commands/compose-test.md",
+        "commands/mobile-tdd.md",
+        "commands/mobile-plan.md",
+        "commands/android-review.md",
+        "commands/lint-android.md",
+        "commands/release-build.md",
+        "commands/learn.md",
+        "commands/instinct-status.md",
+        "commands/instinct-export.md",
+        "commands/instinct-import.md",
+        "commands/evolve.md"
+    ],
+    "skills": [
+        "skills/android-patterns",
+        "skills/jetpack-compose",
+        "skills/mvi-architecture",
+        "skills/koin-patterns",
+        "skills/ktor-patterns",
+        "skills/coroutines-patterns",
+        "skills/mobile-testing",
+        "skills/mobile-security",
+        "skills/gradle-patterns",
+        "skills/continuous-learning",
+        "skills/continuous-learning-v2"
+    ],
+    "contexts": [
+        "contexts/android-dev.md",
+        "contexts/compose-dev.md"
+    ]
+}

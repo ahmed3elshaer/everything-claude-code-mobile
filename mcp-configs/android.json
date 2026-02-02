@@ -1,0 +1,92 @@
+{
+    "$schema": "../schemas/mcp-config.schema.json",
+    "name": "android-development",
+    "description": "MCP configuration for Android development with Gradle, Kotlin, and Compose",
+    "version": "1.0.0",
+    "servers": {
+        "android-sdk": {
+            "description": "Android SDK tools and platform access",
+            "command": "node",
+            "args": [
+                "mcp-servers/android-sdk.js"
+            ],
+            "env": {
+                "ANDROID_HOME": "${env:ANDROID_HOME}",
+                "JAVA_HOME": "${env:JAVA_HOME}"
+            },
+            "capabilities": [
+                "adb",
+                "emulator",
+                "build-tools",
+                "platform-tools"
+            ]
+        },
+        "gradle": {
+            "description": "Gradle build system integration",
+            "command": "node",
+            "args": [
+                "mcp-servers/gradle-server.js"
+            ],
+            "env": {
+                "GRADLE_USER_HOME": "${env:GRADLE_USER_HOME}"
+            },
+            "capabilities": [
+                "build",
+                "test",
+                "dependencies",
+                "tasks"
+            ]
+        },
+        "firebase": {
+            "description": "Firebase integration for Android",
+            "command": "npx",
+            "args": [
+                "-y",
+                "@anthropic/firebase-mcp"
+            ],
+            "env": {
+                "GOOGLE_APPLICATION_CREDENTIALS": "${env:GOOGLE_APPLICATION_CREDENTIALS}"
+            },
+            "optional": true
+        }
+    },
+    "tools": {
+        "adb": {
+            "description": "Android Debug Bridge commands",
+            "examples": [
+                "adb devices",
+                "adb install app.apk",
+                "adb logcat *:E"
+            ]
+        },
+        "gradlew": {
+            "description": "Gradle wrapper commands",
+            "examples": [
+                "./gradlew assembleDebug",
+                "./gradlew test",
+                "./gradlew connectedAndroidTest"
+            ]
+        },
+        "emulator": {
+            "description": "Android Emulator control",
+            "examples": [
+                "emulator -list-avds",
+                "emulator -avd Pixel_6_API_34"
+            ]
+        }
+    },
+    "resources": {
+        "android_manifest": {
+            "pattern": "**/AndroidManifest.xml",
+            "description": "Android manifest files"
+        },
+        "build_gradle": {
+            "pattern": "**/*.gradle.kts",
+            "description": "Gradle build files"
+        },
+        "kotlin_sources": {
+            "pattern": "**/*.kt",
+            "description": "Kotlin source files"
+        }
+    }
+}
