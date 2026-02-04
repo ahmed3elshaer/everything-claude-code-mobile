@@ -9,8 +9,8 @@
             "description": "Complete Claude Code configs for mobile development - Android, iOS, and Kotlin Multiplatform",
             "version": "1.0.0",
             "source": {
-                "type": "github",
-                "url": "https://github.com/ahmed3elshaer/everything-claude-code-mobile"
+                "source": "github",
+                "repo": "ahmed3elshaer/everything-claude-code-mobile"
             },
             "tags": ["mobile", "android", "ios", "kotlin", "swift", "kmp", "jetpack-compose", "swiftui"]
         }

@@ -14,7 +14,12 @@
         "agents/mobile-tdd-guide.md",
         "agents/mobile-security-reviewer.md",
         "agents/mobile-performance-reviewer.md",
-        "agents/mobile-e2e-runner.md"
+        "agents/mobile-e2e-runner.md",
+        "agents/ios-reviewer.md",
+        "agents/xcode-build-resolver.md",
+        "agents/swiftui-guide.md",
+        "agents/kmp-architect.md",
+        "agents/shared-model-designer.md"
     ],
     "commands": [
         "commands/android-build.md",
@@ -31,7 +36,16 @@
         "commands/instinct-status.md",
         "commands/instinct-export.md",
         "commands/instinct-import.md",
-        "commands/evolve.md"
+        "commands/evolve.md",
+        "commands/ios-build.md",
+        "commands/ios-test.md",
+        "commands/swiftlint.md",
+        "commands/kmp-build.md",
+        "commands/kmp-test.md",
+        "commands/kmp-dependency-fix.md",
+        "commands/platform-info.md",
+        "commands/mobile-build.md",
+        "commands/mobile-test.md"
     ],
     "skills": [
         "skills/android-patterns",
@@ -44,10 +58,26 @@
         "skills/mobile-security",
         "skills/gradle-patterns",
         "skills/continuous-learning",
-        "skills/continuous-learning-v2"
+        "skills/continuous-learning-v2",
+        "skills/swiftui-patterns",
+        "skills/swift-patterns",
+        "skills/ios-testing",
+        "skills/combine-framework",
+        "skills/core-data",
+        "skills/expect-actual",
+        "skills/shared-models",
+        "skills/kmp-networking",
+        "skills/shared-coroutines",
+        "skills/kmp-repositories",
+        "skills/kmp-navigation",
+        "skills/kmp-di"
     ],
     "contexts": [
         "contexts/android-dev.md",
-        "contexts/compose-dev.md"
+        "contexts/compose-dev.md",
+        "contexts/ios-dev.md",
+        "contexts/kmp-dev.md",
+        "contexts/swiftui-dev.md",
+        "contexts/uikit-dev.md"
     ]
 }
