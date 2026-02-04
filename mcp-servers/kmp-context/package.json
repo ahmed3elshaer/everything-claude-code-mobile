@@ -1,0 +1,12 @@
+{
+  "name": "kmp-context-mcp-server",
+  "version": "1.0.0",
+  "description": "KMP Context MCP Server for tracking Kotlin Multiplatform modules, source sets, and expect/actual declarations",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.4"
+  }
+}

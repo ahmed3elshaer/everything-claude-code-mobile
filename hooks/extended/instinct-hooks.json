@@ -1,0 +1,137 @@
+{
+    "description": "Enhanced instinct hooks for mobile pattern capture. Extends the base hooks.json with V1/V2 instinct-specific triggers.",
+    "version": "2.0",
+    "hooks": [
+        {
+            "event": "PostToolUse",
+            "matcher": "tool == \"Edit\" && tool_input.file_path matches \"\\\\.kt$\"",
+            "description": "V1: Extract patterns from Kotlin file edits (Compose, MVI, Koin, Ktor)",
+            "hooks": [
+                {
+                    "type": "command",
+                    "command": "node /Users/ah3sh/Developer/everything-claude-code-mobile/scripts/hooks/extract-pattern.js \"$file_path\""
+                }
+            ]
+        },
+        {
+            "event": "PostToolUse",
+            "matcher": "tool == \"Write\" && tool_input.file_path matches \"ViewModel\\\\.kt$\"",
+            "description": "V1: Capture ViewModel patterns (state management, intent handling)",
+            "hooks": [
+                {
+                    "type": "command",
+                    "command": "node /Users/ah3sh/Developer/everything-claude-code-mobile/scripts/hooks/capture-viewmodel.js \"$file_path\""
+                },
+                {
+                    "type": "message",
+                    "message": "🧠 Instinct: ViewModel pattern captured. Use /instinct-status to review."
+                }
+            ]
+        },
+        {
+            "event": "PostToolUse",
+            "matcher": "tool == \"Write\" && tool_input.file_path matches \"Screen\\\\.kt$\"",
+            "description": "V1: Capture Compose screen patterns (state hoisting, side effects)",
+            "hooks": [
+                {
+                    "type": "command",
+                    "command": "node /Users/ah3sh/Developer/everything-claude-code-mobile/scripts/hooks/capture-compose.js \"$file_path\""
+                },
+                {
+                    "type": "message",
+                    "message": "🧠 Instinct: Compose screen pattern captured."
+                }
+            ]
+        },
+        {
+            "event": "PostToolUse",
+            "matcher": "tool == \"Write\" && tool_input.file_path matches \"Module\\\\.kt$\"",
+            "description": "V1: Capture Koin module patterns (dependency injection)",
+            "hooks": [
+                {
+                    "type": "command",
+                    "command": "node /Users/ah3sh/Developer/everything-claude-code-mobile/scripts/hooks/capture-koin.js \"$file_path\""
+                }
+            ]
+        },
+        {
+            "event": "PostToolUse",
+            "matcher": "tool == \"Edit\" && tool_input.file_path matches \"build.gradle\\\\.kts$\"",
+            "description": "V2: Track dependency changes for pattern learning",
+            "hooks": [
+                {
+                    "type": "command",
+                    "command": "node /Users/ah3sh/Developer/everything-claude-code-mobile/scripts/hooks/track-dependency.js \"$file_path\""
+                }
+            ]
+        },
+        {
+            "event": "Stop",
+            "description": "V2: Session-end observational learning - extract architectural patterns",
+            "hooks": [
+                {
+                    "type": "command",
+                    "command": "node /Users/ah3sh/Developer/everything-claude-code-mobile/scripts/hooks/evaluate-session.js"
+                },
+                {
+                    "type": "command",
+                    "command": "node /Users/ah3sh/Developer/everything-claude-code-mobile/scripts/hooks/v2-analysis.js"
+                }
+            ]
+        },
+        {
+            "event": "PreCompact",
+            "description": "V1+V2: Preserve all instinct data before context compaction",
+            "hooks": [
+                {
+                    "type": "command",
+                    "command": "node /Users/ah3sh/Developer/everything-claude-code-mobile/scripts/hooks/pre-compact.js"
+                }
+            ]
+        },
+        {
+            "event": "PostToolUse",
+            "matcher": "tool == \"Bash\" && tool_input.command matches \"gradle\\\\s+(build|assemble|test)\"",
+            "description": "V2: Track build patterns and outcomes",
+            "hooks": [
+                {
+                    "type": "command",
+                    "command": "node /Users/ah3sh/Developer/everything-claude-code-mobile/scripts/hooks/track-build.js"
+                }
+            ]
+        },
+        {
+            "event": "PostToolUse",
+            "matcher": "tool == \"Read\" && tool_input.file_path matches \"\\\\.kt$\" && read_count > 3",
+            "description": "V2: Repeated file reads indicate problem-solving - capture pattern",
+            "hooks": [
+                {
+                    "type": "command",
+                    "command": "node /Users/ah3sh/Developer/everything-claude-code-mobile/scripts/hooks/track-focus.js \"$file_path\""
+                }
+            ]
+        }
+    ],
+    "patternMapping": {
+        "compose": {
+            "filePatterns": ["*Screen.kt", "*Compose.kt", "ui/*"],
+            "patterns": ["state-hoisting", "remember-key", "launched-effect", "immutable-data"]
+        },
+        "mvi": {
+            "filePatterns": ["*ViewModel.kt", "*State.kt", "*Intent.kt"],
+            "patterns": ["sealed-state", "intent-handler", "state-reduction", "single-event"]
+        },
+        "koin": {
+            "filePatterns": ["*Module.kt", "di/*"],
+            "patterns": ["viewmodel-injection", "module-factory", "scoped-deps"]
+        },
+        "ktor": {
+            "filePatterns": ["*ApiClient.kt", "*DataSource.kt", "network/*"],
+            "patterns": ["safe-request", "plugin-install", "timeout-config", "retry-logic"]
+        },
+        "coroutines": {
+            "filePatterns": ["*.kt"],
+            "patterns": ["viewmodel-scope", "structured-concurrency", "dispatcher-selection"]
+        }
+    }
+}

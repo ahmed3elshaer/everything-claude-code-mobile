@@ -1,6 +1,6 @@
 # Everything Claude Code Mobile
 
-[![Stars](https://img.shields.io/github/stars/affaan-m/everything-claude-code-mobile?style=flat)](https://github.com/affaan-m/everything-claude-code-mobile/stargazers)
+[![Stars](https://img.shields.io/github/stars/ahmed3elshaer/everything-claude-code-mobile?style=flat)](https://github.com/ahmed3elshaer/everything-claude-code-mobile/stargazers)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 ![Kotlin](https://img.shields.io/badge/-Kotlin-7F52FF?logo=kotlin&logoColor=white)
 ![Compose](https://img.shields.io/badge/-Jetpack%20Compose-4285F4?logo=jetpackcompose&logoColor=white)
@@ -13,7 +13,7 @@
 
 Production-ready agents, skills, hooks, commands, and rules specifically designed for **Android**, **iOS**, and **Kotlin Multiplatform** development.
 
-> 📱 **Mobile companion to [everything-claude-code](https://github.com/affaan-m/everything-claude-code)**
+> 📱 **Mobile companion to [everything-claude-code](https://github.com/ahmed3elshaer/everything-claude-code)**
 
 ---
 
@@ -23,17 +23,17 @@ Production-ready agents, skills, hooks, commands, and rules specifically designe
 
 ```bash
 # Add marketplace
-/plugin marketplace add affaan-m/everything-claude-code-mobile
+/plugin marketplace add ahmed3elshaer/everything-claude-code-mobile
 
 # Install plugin
-/plugin install everything-claude-code-mobile@everything-claude-code-mobile
+/plugin install everything-claude-code-mobile@ahmed3elshaer
 ```
 
 ### Step 2: Install Rules (Required)
 
 ```bash
 # Clone the repo first
-git clone https://github.com/affaan-m/everything-claude-code-mobile.git
+git clone https://github.com/ahmed3elshaer/everything-claude-code-mobile.git
 
 # Copy rules (applies to all projects)
 cp -r everything-claude-code-mobile/rules/* ~/.claude/rules/
@@ -52,7 +52,7 @@ cp -r everything-claude-code-mobile/rules/* ~/.claude/rules/
 /mobile-tdd
 
 # Check available commands
-/plugin list everything-claude-code-mobile@everything-claude-code-mobile
+/plugin list everything-claude-code-mobile@ahmed3elshaer
 ```
 
 ---

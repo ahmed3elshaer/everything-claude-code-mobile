@@ -2,8 +2,8 @@
     "name": "everything-claude-code-mobile",
     "version": "1.0.0",
     "description": "Complete Claude Code configs for mobile development - Android, iOS, and Kotlin Multiplatform",
-    "repository": "https://github.com/affaan-m/everything-claude-code-mobile",
-    "author": "affaan-m",
+    "repository": "https://github.com/ahmed3elshaer/everything-claude-code-mobile",
+    "author": "ahmed3elshaer",
     "license": "MIT",
     "agents": [
         "agents/android-reviewer.md",

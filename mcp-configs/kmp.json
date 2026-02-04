@@ -1,0 +1,44 @@
+{
+    "mcpServers": {
+        "kmp-context": {
+            "command": "node",
+            "args": [
+                "/Users/ah3sh/Developer/everything-claude-code-mobile/mcp-servers/kmp-context/index.js"
+            ],
+            "env": {
+                "KMP_CONTEXT_DIR": ".claude/kmp-context",
+                "KMP_AUTO_DETECT": "true"
+            }
+        }
+    },
+    "description": "KMP Context MCP server for tracking Kotlin Multiplatform modules, source sets, expect/actual declarations, and cross-platform dependencies.",
+    "version": "1.0",
+    "capabilities": {
+        "resources": [
+            "context://kmp-modules",
+            "context://source-sets",
+            "context://expect-actual",
+            "context::shared-models"
+        ],
+        "tools": [
+            "context-query",
+            "context-refresh",
+            "context-detect-platform"
+        ]
+    },
+    "platformDetection": {
+        "android": ["build.gradle.kts", "AndroidManifest.xml"],
+        "ios": ["*.xcodeproj", "*.xcworkspace"],
+        "kmp": ["shared/build.gradle.kts", "shared/commonMain"]
+    },
+    "integration": {
+        "mobileMemory": {
+            "shared": true,
+            "inheritPlatformContext": true
+        },
+        "agents": {
+            "kmp-architect": "use kmp-modules and expect-actual",
+            "shared-model-designer": "use shared-models"
+        }
+    }
+}

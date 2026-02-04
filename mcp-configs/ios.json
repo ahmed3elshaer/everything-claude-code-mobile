@@ -1,0 +1,110 @@
+{
+    "mcpServers": {
+        "ios-memory": {
+            "command": "node",
+            "args": [
+                "/Users/ah3sh/Developer/everything-claude-code-mobile/mcp-servers/ios-memory/index.js"
+            ],
+            "env": {
+                "IOS_MEMORY_DIR": ".claude/ios-memory",
+                "IOS_MEMORY_MAX_SIZE": "10MB",
+                "IOS_MEMORY_RETENTION": "90days"
+            }
+        }
+    },
+    "description": "iOS Memory MCP server for tracking Xcode projects, Swift files, SwiftUI views, and CocoaPods/SPM dependencies.",
+    "version": "1.0",
+    "capabilities": {
+        "resources": [
+            "memory://xcode-project",
+            "memory://swiftui-views",
+            "memory::ios-dependencies",
+            "memory::ios-schemes",
+            "memory::ios-tests"
+        ],
+        "tools": [
+            "memory-save",
+            "memory-load",
+            "memory-query",
+            "memory-forget"
+        ]
+    },
+    "memoryTypes": {
+        "xcode-project": {
+            "description": "Xcode project structure and targets",
+            "schema": {
+                "projectFile": "string",
+                "workspace": "string?",
+                "targets": [{
+                    "name": "string",
+                    "type": "application|test|ui-test",
+                    "bundleId": "string",
+                    "platform": "iOS|macOS"
+                }],
+                "schemes": ["string"],
+                "configurations": ["string"],
+                "lastAnalyzed": "timestamp"
+            },
+            "retention": "persistent"
+        },
+        "swiftui-views": {
+            "description": "SwiftUI views and navigation",
+            "schema": {
+                "views": [{
+                    "name": "string",
+                    "file": "string",
+                    "hasPreview": "boolean",
+                    "stateProperties": ["string"],
+                    "navigationDestination": "string?"
+                }],
+                "navigationPaths": ["string"],
+                "sheets": ["string"],
+                "lastIndexed": "timestamp"
+            },
+            "retention": "90days"
+        },
+        "ios-dependencies": {
+            "description": "SPM and CocoaPods dependencies",
+            "schema": {
+                "spmPackages": [{
+                    "name": "string",
+                    "url": "string",
+                    "version": "string"
+                }],
+                "cocoaPods": [{
+                    "name": "string",
+                    "version": "string"
+                }],
+                "frameworks": ["string"],
+                "lastSync": "timestamp"
+            },
+            "retention": "90days"
+        },
+        "ios-schemes": {
+            "description": "Xcode schemes and run configurations",
+            "schema": {
+                "schemes": [{
+                    "name": "string",
+                    "buildAction": "string",
+                    "testAction": "string",
+                    "launchAction": "string",
+                    "profileAction": "string"
+                }],
+                "lastListed": "timestamp"
+            },
+            "retention": "persistent"
+        },
+        "ios-tests": {
+            "description": "Test targets and coverage",
+            "schema": {
+                "unitTestTargets": ["string"],
+                "uiTestTargets": ["string"],
+                "testCount": "number",
+                "coverage": "number",
+                "failingTests": ["string"],
+                "lastRun": "timestamp"
+            },
+            "retention": "90days"
+        }
+    }
+}

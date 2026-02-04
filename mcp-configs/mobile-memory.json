@@ -1,0 +1,216 @@
+{
+    "mcpServers": {
+        "mobile-memory": {
+            "command": "node",
+            "args": [
+                "/Users/ah3sh/Developer/everything-claude-code-mobile/mcp-servers/mobile-memory/index.js"
+            ],
+            "env": {
+                "MOBILE_MEMORY_DIR": ".claude/mobile-memory",
+                "MOBILE_MEMORY_MAX_SIZE": "10MB",
+                "MOBILE_MEMORY_RETENTION": "90days"
+            }
+        }
+    },
+    "description": "Mobile Memory MCP server for persistent mobile development context across sessions.",
+    "version": "1.0",
+    "capabilities": {
+        "resources": [
+            "memory://project-structure",
+            "memory://dependencies",
+            "memory://architecture",
+            "memory://test-coverage",
+            "memory://compose-screens",
+            "memory://build-variants",
+            "memory://navigation-graph",
+            "memory://recent-changes"
+        ],
+        "tools": [
+            "memory-save",
+            "memory-load",
+            "memory-query",
+            "memory-forget",
+            "memory-summary",
+            "memory-export",
+            "memory-import"
+        ]
+    },
+    "memoryTypes": {
+        "project-structure": {
+            "description": "Android module layout and organization",
+            "schema": {
+                "modules": ["string"],
+                "buildVariants": ["string"],
+                "sourceSets": {
+                    "main": "string",
+                    "debug": "string",
+                    "release": "string"
+                },
+                "featureModules": ["string"],
+                "lastUpdated": "timestamp"
+            },
+            "retention": "persistent",
+            "autoRefresh": true
+        },
+        "dependencies": {
+            "description": "Current Gradle dependencies with versions",
+            "schema": {
+                "libraries": [{
+                    "name": "string",
+                    "group": "string",
+                    "version": "string",
+                    "type": "implementation|test|debug"
+                }],
+                "plugins": ["string"],
+                "kgpVersion": "string",
+                "gradleVersion": "string",
+                "lastSync": "timestamp"
+            },
+            "retention": "90days",
+            "autoRefresh": true
+        },
+        "architecture": {
+            "description": "MVI structure, repository locations, patterns used",
+            "schema": {
+                "pattern": "mvi|mvvm|clean-architecture",
+                "uiLayer": {
+                    "screens": ["string"],
+                    "components": ["string"],
+                    "viewmodels": ["string"]
+                },
+                "dataLayer": {
+                    "repositories": ["string"],
+                    "datasources": ["string"],
+                    "models": ["string"]
+                },
+                "domainLayer": {
+                    "usecases": ["string"],
+                    "models": ["string"]
+                },
+                "di": {
+                    "framework": "koin|hilt|dagger",
+                    "modules": ["string"]
+                },
+                "lastAnalyzed": "timestamp"
+            },
+            "retention": "persistent",
+            "autoRefresh": false
+        },
+        "test-coverage": {
+            "description": "Test coverage metrics and goals",
+            "schema": {
+                "modules": [{
+                    "name": "string",
+                    "coverage": "number",
+                    "goal": "number",
+                    "lastRun": "timestamp"
+                }],
+                "totalCoverage": "number",
+                "trend": "improving|stable|declining",
+                "failingTests": [{
+                    "class": "string",
+                    "method": "string",
+                    "since": "timestamp"
+                }],
+                "flakyTests": [{
+                    "class": "string",
+                    "method": "string",
+                    "failCount": "number"
+                }]
+            },
+            "retention": "90days",
+            "autoRefresh": true
+        },
+        "compose-screens": {
+            "description": "List of Compose screens and navigation",
+            "schema": {
+                "screens": [{
+                    "name": "string",
+                    "route": "string",
+                    "file": "string",
+                    "previewable": "boolean",
+                    "testable": "boolean"
+                }],
+                "navigation": {
+                    "type": "compose-navigation|deeplink",
+                    "graphFile": "string"
+                },
+                "lastIndexed": "timestamp"
+            },
+            "retention": "90days",
+            "autoRefresh": true
+        },
+        "build-variants": {
+            "description": "Build configuration per variant",
+            "schema": {
+                "variants": [{
+                    "name": "string",
+                    "applicationId": "string",
+                    "versionCode": "number",
+                    "versionName": "string",
+                    "signingConfig": "string",
+                    "buildConfig": [{ "key": "string", "value": "string" }]
+                }],
+                "flavors": ["string"]
+            },
+            "retention": "persistent",
+            "autoRefresh": true
+        },
+        "navigation-graph": {
+            "description": "Navigation routes and destinations",
+            "schema": {
+                "routes": [{
+                    "route": "string",
+                    "destination": "string",
+                    "arguments": ["string"]
+                }],
+                "deepLinks": [{
+                    "uri": "string",
+                    "destination": "string"
+                }],
+                "nestedGraphs": ["string"]
+            },
+            "retention": "90days",
+            "autoRefresh": true
+        },
+        "recent-changes": {
+            "description": "Recent code changes for context awareness",
+            "schema": {
+                "files": [{
+                    "path": "string",
+                    "lastModified": "timestamp",
+                    "changeType": "create|modify|delete",
+                    "relatedTo": ["string"]
+                }],
+                "sessions": [{
+                    "date": "timestamp",
+                    "focus": "string",
+                    "filesChanged": "number"
+                }]
+            },
+            "retention": "30days",
+            "autoRefresh": true
+        }
+    },
+    "hooks": {
+        "onFileChange": "memory-save recent-changes",
+        "onGradleSync": "memory-save dependencies",
+        "onTestComplete": "memory-save test-coverage",
+        "onSessionStart": "memory-load all",
+        "onSessionEnd": "memory-save all"
+    },
+    "integration": {
+        "instincts": {
+            "preserveOnCompact": true,
+            "mergeStrategy": "high-confidence-wins"
+        },
+        "checkpoints": {
+            "includeMemory": true,
+            "restoreOnCheckpointRestore": true
+        },
+        "compaction": {
+            "preserveMemory": true,
+            "summarizeStrategy": "keep-recent-summarize-old"
+        }
+    }
+}

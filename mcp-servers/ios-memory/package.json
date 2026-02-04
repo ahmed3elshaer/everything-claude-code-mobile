@@ -1,0 +1,12 @@
+{
+  "name": "ios-memory-mcp-server",
+  "version": "1.0.0",
+  "description": "iOS Memory MCP Server for tracking Xcode projects, SwiftUI views, and iOS dependencies",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.4"
+  }
+}

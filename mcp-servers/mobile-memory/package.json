@@ -1,0 +1,18 @@
+{
+    "name": "mobile-memory-mcp-server",
+    "version": "1.0.0",
+    "description": "MCP server for mobile development memory persistence",
+    "main": "index.js",
+    "bin": {
+        "mobile-memory": "./index.js"
+    },
+    "scripts": {
+        "start": "node index.js"
+    },
+    "dependencies": {
+        "@modelcontextprotocol/sdk": "^1.0.4"
+    },
+    "engines": {
+        "node": ">=18.0.0"
+    }
+}

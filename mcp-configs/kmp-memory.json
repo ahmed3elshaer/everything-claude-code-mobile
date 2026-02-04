@@ -1,0 +1,205 @@
+{
+    "mcpServers": {
+        "kmp-memory": {
+            "command": "node",
+            "args": [
+                "/Users/ah3sh/Developer/everything-claude-code-mobile/mcp-servers/kmp-memory/index.js"
+            ],
+            "env": {
+                "KMP_MEMORY_DIR": ".claude/kmp-memory",
+                "KMP_MEMORY_MAX_SIZE": "15MB",
+                "KMP_MEMORY_RETENTION": "90days"
+            }
+        }
+    },
+    "description": "KMP Memory MCP server for tracking Kotlin Multiplatform modules, source sets, expect/actual declarations, and platform dependencies.",
+    "version": "1.0",
+    "capabilities": {
+        "resources": [
+            "memory://kmp-modules",
+            "memory://source-sets",
+            "memory://expect-actual",
+            "memory://kmp-dependencies",
+            "memory://shared-models",
+            "memory://platform-implementations"
+        ],
+        "tools": [
+            "memory-save",
+            "memory-load",
+            "memory-query",
+            "memory-forget",
+            "memory-summary",
+            "memory-export",
+            "memory-import"
+        ]
+    },
+    "memoryTypes": {
+        "kmp-modules": {
+            "description": "Shared and platform-specific modules in KMP project",
+            "schema": {
+                "sharedModule": {
+                    "name": "string",
+                    "path": "string",
+                    "targets": ["string"]
+                },
+                "platformModules": [{
+                    "platform": "android|ios|desktop|web",
+                    "name": "string",
+                    "path": "string"
+                }],
+                "hierarchicalStructure": "boolean",
+                "lastAnalyzed": "timestamp"
+            },
+            "retention": "persistent",
+            "autoRefresh": true
+        },
+        "source-sets": {
+            "description": "Source sets and their relationships",
+            "schema": {
+                "commonMain": {
+                    "path": "string",
+                    "dependencies": ["string"],
+                    "packages": ["string"]
+                },
+                "platformSourceSets": {
+                    "androidMain": {
+                        "path": "string",
+                        "dependencies": ["string"],
+                        "inheritsFrom": ["string"]
+                    },
+                    "iosMain": {
+                        "path": "string",
+                        "dependencies": ["string"],
+                        "inheritsFrom": ["string"]
+                    }
+                },
+                "testSourceSets": {
+                    "commonTest": "string",
+                    "androidTest": "string",
+                    "iosTest": "string"
+                },
+                "lastIndexed": "timestamp"
+            },
+            "retention": "90days",
+            "autoRefresh": true
+        },
+        "expect-actual": {
+            "description": "expect/actual declarations across the project",
+            "schema": {
+                "declarations": [{
+                    "name": "string",
+                    "kind": "class|object|function|property",
+                    "expectLocation": {
+                        "file": "string",
+                        "line": "number",
+                        "sourceSet": "string"
+                    },
+                    "actualImplementations": [{
+                        "platform": "string",
+                        "location": {
+                            "file": "string",
+                            "line": "number",
+                            "sourceSet": "string"
+                        }
+                    }],
+                    "signature": "string"
+                }],
+                "lastScanned": "timestamp"
+            },
+            "retention": "90days",
+            "autoRefresh": true
+        },
+        "kmp-dependencies": {
+            "description": "KMP-specific dependencies with platform variations",
+            "schema": {
+                "commonDependencies": [{
+                    "group": "string",
+                    "artifact": "string",
+                    "version": "string"
+                }],
+                "androidDependencies": [{
+                    "group": "string",
+                    "artifact": "string",
+                    "version": "string"
+                }],
+                "iosDependencies": [{
+                    "group": "string",
+                    "artifact": "string",
+                    "version": "string",
+                    "podName": "string"
+                }],
+                "plugins": ["string"],
+                "kotlinVersion": "string",
+                "gradleVersion": "string",
+                "lastSync": "timestamp"
+            },
+            "retention": "90days",
+            "autoRefresh": true
+        },
+        "shared-models": {
+            "description": "Shared data models and their serialization setup",
+            "schema": {
+                "models": [{
+                    "name": "string",
+                    "file": "string",
+                    "properties": [{
+                        "name": "string",
+                        "type": "string",
+                        "nullable": "boolean"
+                    }],
+                    "serializable": "boolean",
+                    "isSealed": "boolean"
+                }],
+                "serializers": [{
+                    "type": "string",
+                    "serializer": "string"
+                }],
+                "jsonConfig": {
+                    "ignoreUnknownKeys": "boolean",
+                    "isLenient": "boolean",
+                    "encodeDefaults": "boolean"
+                },
+                "lastCatalogued": "timestamp"
+            },
+            "retention": "90days",
+            "autoRefresh": false
+        },
+        "platform-implementations": {
+            "description": "Platform-specific implementations of shared interfaces",
+            "schema": {
+                "implementations": [{
+                    "sharedInterface": "string",
+                    "platform": "android|ios|desktop|web",
+                    "implementationClass": "string",
+                    "file": "string",
+                    "dependencies": ["string"]
+                }],
+                "bridgingLayer": {
+                    "android": ["string"],
+                    "ios": ["string"]
+                },
+                "lastTracked": "timestamp"
+            },
+            "retention": "90days",
+            "autoRefresh": true
+        }
+    },
+    "hooks": {
+        "onGradleSync": "memory-save kmp-dependencies",
+        "onFileChange": "memory-save shared-models",
+        "onExpectActualAdded": "memory-save expect-actual",
+        "onSessionStart": "memory-load all",
+        "onSessionEnd": "memory-save all"
+    },
+    "integration": {
+        "mobileMemory": {
+            "inheritAndroidContext": true,
+            "mergePlatformDependencies": true
+        },
+        "agents": {
+            "kmp-architect": "use kmp-modules and expect-actual",
+            "shared-model-designer": "use shared-models",
+            "android-reviewer": "inherit from kmp-dependencies"
+        }
+    }
+}

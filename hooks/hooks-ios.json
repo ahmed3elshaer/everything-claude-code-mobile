@@ -1,0 +1,101 @@
+{
+    "hooks": [
+        {
+            "event": "Stop",
+            "description": "Extract Swift patterns at session end for continuous learning",
+            "hooks": [
+                {
+                    "type": "command",
+                    "command": "node scripts/hooks/evaluate-ios-session.js"
+                }
+            ]
+        },
+        {
+            "event": "PreCompact",
+            "description": "Save iOS session context before compaction to preserve learned patterns",
+            "hooks": [
+                {
+                    "type": "command",
+                    "command": "node scripts/hooks/pre-compact-ios.js"
+                }
+            ]
+        },
+        {
+            "event": "PostToolUse",
+            "matcher": "tool == \"Write\" && tool_input.file_path matches \"\\\\.swift$\"",
+            "description": "Check Swift file for common anti-patterns after edits",
+            "hooks": [
+                {
+                    "type": "command",
+                    "command": "grep -n 'force unwrap\\|!\\|DispatchQueue.main.async' \"$file_path\" 2>/dev/null | head -5 || true"
+                }
+            ]
+        },
+        {
+            "event": "PostToolUse",
+            "matcher": "tool == \"Write\" && tool_input.file_path matches \"ViewModel\\\\.swift$\"",
+            "description": "Remind to add tests for ViewModels",
+            "hooks": [
+                {
+                    "type": "message",
+                    "message": "📝 Remember: Create corresponding test file with XCTest and consider SwiftUI previews"
+                }
+            ]
+        },
+        {
+            "event": "PostToolUse",
+            "matcher": "tool == \"Write\" && tool_input.file_path matches \"ContentView\\\\.swift$\"",
+            "description": "Remind to add SwiftUI preview",
+            "hooks": [
+                {
+                    "type": "message",
+                    "message": "🎨 Don't forget to add #Preview for your SwiftUI view!"
+                }
+            ]
+        },
+        {
+            "event": "PostToolUse",
+            "matcher": "tool == \"Write\" && tool_input.file_path matches \"\\\\.swift$\"",
+            "description": "Check for async/await usage in Swift files",
+            "hooks": [
+                {
+                    "type": "command",
+                    "command": "grep -n 'await MainActor.run\\|Task {' \"$file_path\" 2>/dev/null | head -3 || true"
+                }
+            ]
+        },
+        {
+            "event": "PostToolUse",
+            "matcher": "tool == \"Write\" && tool_input.file_path matches \"Info.plist$\"",
+            "description": "Verify Info.plist changes are documented",
+            "hooks": [
+                {
+                    "type": "message",
+                    "message": "⚠️ Info.plist changed: Ensure permissions are documented in README/PR description"
+                }
+            ]
+        },
+        {
+            "event": "PostToolUse",
+            "matcher": "tool == \"Write\" && tool_input.file_path matches \"Podfile$\"",
+            "description": "Remind to run pod install",
+            "hooks": [
+                {
+                    "type": "message",
+                    "message": "📦 Podfile changed: Remember to run `pod install`"
+                }
+            ]
+        },
+        {
+            "event": "PostToolUse",
+            "matcher": "tool == \"Write\" && tool_input.file_path matches \"Package.swift$\"",
+            "description": "Remind to resolve Swift Package Manager dependencies",
+            "hooks": [
+                {
+                    "type": "message",
+                    "message": "📦 Package.swift changed: Remember to resolve packages in Xcode (File > Packages > Resolve Package Versions)"
+                }
+            ]
+        }
+    ]
+}

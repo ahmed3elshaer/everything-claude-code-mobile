@@ -1,0 +1,143 @@
+{
+    "description": "Auto-checkpoint hooks for mobile development. Creates automatic checkpoints before risky operations.",
+    "version": "1.0",
+    "checkpoints": {
+        "quick": {
+            "description": "Quick checkpoint with git state and recent files",
+            "content": ["git-status", "git-branch", "recent-files"]
+        },
+        "standard": {
+            "description": "Standard checkpoint with build configuration and tests",
+            "content": ["git-status", "git-branch", "build-config", "test-results", "recent-files"]
+        },
+        "full": {
+            "description": "Full checkpoint including dependencies and manifest",
+            "content": ["git-state", "build-config", "dependencies", "manifest", "test-results", "instincts", "compose-state"]
+        }
+    },
+    "hooks": [
+        {
+            "event": "PreToolUse",
+            "matcher": "tool == \"Bash\" && tool_input.command matches \"gradle.*(upgrade|wrapper)\")",
+            "description": "Auto-checkpoint before Gradle updates",
+            "hooks": [
+                {
+                    "type": "command",
+                    "command": "node /Users/ah3sh/Developer/everything-claude-code-mobile/scripts/hooks/auto-checkpoint.js standard before-gradle-update"
+                },
+                {
+                    "type": "message",
+                    "message": "💾 Checkpoint created: before-gradle-update (Standard)"
+                }
+            ]
+        },
+        {
+            "event": "PreToolUse",
+            "matcher": "tool == \"Edit\" && tool_input.file_path matches \"AndroidManifest\\\\.xml$\"",
+            "description": "Auto-checkpoint before manifest changes",
+            "hooks": [
+                {
+                    "type": "command",
+                    "command": "node /Users/ah3sh/Developer/everything-claude-code-mobile/scripts/hooks/auto-checkpoint.js standard before-manifest-change"
+                }
+            ]
+        },
+        {
+            "event": "PostToolUse",
+            "matcher": "tool == \"Bash\" && tool_input.command matches \"gradle\\\\s+build\" && exit_code == 0",
+            "description": "Create checkpoint after successful build",
+            "hooks": [
+                {
+                    "type": "command",
+                    "command": "node /Users/ah3sh/Developer/everything-claude-code-mobile/scripts/hooks/auto-checkpoint.js quick build-success"
+                }
+            ]
+        },
+        {
+            "event": "PostToolUse",
+            "matcher": "tool == \"Bash\" && tool_input.command matches \"gradle\\\\s+test\" && exit_code == 0",
+            "description": "Create checkpoint after all tests pass",
+            "hooks": [
+                {
+                    "type": "command",
+                    "command": "node /Users/ah3sh/Developer/everything-claude-code-mobile/scripts/hooks/auto-checkpoint.js standard tests-passing"
+                },
+                {
+                    "type": "message",
+                    "message": "✅ Checkpoint created: tests-passing (Standard)"
+                }
+            ]
+        },
+        {
+            "event": "PostToolUse",
+            "matcher": "file_change_count > 10 && tool == \"Edit\"",
+            "description": "Auto-checkpoint before large refactors (detected by many file changes)",
+            "hooks": [
+                {
+                    "type": "command",
+                    "command": "node /Users/ah3sh/Developer/everything-claude-code-mobile/scripts/hooks/auto-checkpoint.js full before-large-refactor"
+                },
+                {
+                    "type": "message",
+                    "message": "💾 Large refactor detected - checkpoint created: before-large-refactor (Full)"
+                }
+            ]
+        },
+        {
+            "event": "PostToolUse",
+            "matcher": "tool == \"Edit\" && tool_input.file_path matches \"build.gradle\\\\.kts$\" && dependency_change_detected",
+            "description": "Auto-checkpoint before dependency changes",
+            "hooks": [
+                {
+                    "type": "command",
+                    "command": "node /Users/ah3sh/Developer/everything-claude-code-mobile/scripts/hooks/auto-checkpoint.js standard before-dependency-change"
+                },
+                {
+                    "type": "message",
+                    "message": "💾 Dependency change detected - checkpoint created"
+                }
+            ]
+        },
+        {
+            "event": "PostToolUse",
+            "matcher": "tool == \"Edit\" && tool_input.file_path matches \"libs\\\\.versions\\\\.toml$\"",
+            "description": "Auto-checkpoint before version catalog changes",
+            "hooks": [
+                {
+                    "type": "command",
+                    "command": "node /Users/ah3sh/Developer/everything-claude-code-mobile/scripts/hooks/auto-checkpoint.js standard before-version-catalog-change"
+                }
+            ]
+        },
+        {
+            "event": "Stop",
+            "description": "Offer checkpoint creation at end of productive session",
+            "hooks": [
+                {
+                    "type": "command",
+                    "command": "node /Users/ah3sh/Developer/everything-claude-code-mobile/scripts/hooks/session-checkpoint-prompt.js"
+                }
+            ]
+        },
+        {
+            "event": "PreCompact",
+            "description": "Always save checkpoint before context compaction",
+            "hooks": [
+                {
+                    "type": "command",
+                    "command": "node /Users/ah3sh/Developer/everything-claude-code-mobile/scripts/hooks/pre-compact.js"
+                }
+            ]
+        }
+    ],
+    "cleanup": {
+        "maxCheckpoints": 20,
+        "maxAge": "30 days",
+        "pruneOnStart": true
+    },
+    "storage": {
+        "location": ".claude/checkpoints",
+        "compression": true,
+        "includeInstincts": true
+    }
+}
