@@ -36,6 +36,8 @@ const MEMORY_DIR = path.join(TEST_DIR, '.claude/mobile-memory');
 function setupTestProject() {
     fs.mkdirSync(TEST_DIR, { recursive: true });
     fs.mkdirSync(MEMORY_DIR, { recursive: true });
+    fs.mkdirSync(path.join(TEST_DIR, 'gradle/wrapper'), { recursive: true });
+    fs.mkdirSync(path.join(TEST_DIR, 'app'), { recursive: true });
 
     // Create mock Android project files
     fs.writeFileSync(path.join(TEST_DIR, 'settings.gradle.kts'), `
@@ -82,7 +84,7 @@ describe('Mobile Memory MCP Server', () => {
             const content = fs.readFileSync(settingsPath, 'utf8');
 
             const includeMatches = content.matchAll(/include\s*\("([^"]+)"\)/g);
-            const modules = Array.from(includeMatches).map(m => m[1].replace(':', '/'));
+            const modules = Array.from(includeMatches).map(m => m[1].replace(/^:/, '').replace(/:/g, '/'));
 
             assert.strictEqual(modules.length, 3);
             assert.ok(modules.includes('app'));
@@ -94,7 +96,7 @@ describe('Mobile Memory MCP Server', () => {
             const settingsPath = path.join(TEST_DIR, 'settings.gradle.kts');
             const content = fs.readFileSync(settingsPath, 'utf8');
 
-            const featureMatches = content.matchAll(/include\s*\("feature:([^"]+)"\)/g);
+            const featureMatches = content.matchAll(/include\s*\(":feature:([^"]+)"\)/g);
             const featureModules = Array.from(featureMatches).map(m => m[1]);
 
             assert.strictEqual(featureModules.length, 1);
@@ -117,7 +119,7 @@ describe('Mobile Memory MCP Server', () => {
             const buildPath = path.join(TEST_DIR, 'app/build.gradle.kts');
             const content = fs.readFileSync(buildPath, 'utf8');
 
-            const variantMatches = content.matchAll(/buildTypes\s*\{[^}]*getByName\s*\(\s*"([^"]+)"/g);
+            const variantMatches = content.matchAll(/getByName\s*\(\s*"([^"]+)"\s*\)/g);
             const variants = Array.from(variantMatches).map(m => m[1]);
 
             assert.ok(variants.includes('debug'));
@@ -223,11 +225,5 @@ describe('Mobile Memory MCP Server', () => {
         });
     });
 });
-
-// Run tests when executed directly
-if (require.main === module) {
-    console.log('Running Mobile Memory MCP Server tests...\n');
-    run();
-}
 
 module.exports = { setupTestProject, cleanupTestProject };

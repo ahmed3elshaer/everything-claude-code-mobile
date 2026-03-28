@@ -41,6 +41,32 @@
                     "message": "📝 Remember: Create corresponding test file in src/test with TDD approach"
                 }
             ]
+        },
+        {
+            "event": "PostToolUse",
+            "matcher": "tool == \"Write\" && tool_input.file_path matches \"\\\\.omc/state/feature-.*\\\\.json$\"",
+            "description": "Trigger learning extraction when a feature build is signed off",
+            "hooks": [
+                {
+                    "type": "command",
+                    "command": "node scripts/hooks/feature-build-learn.js"
+                },
+                {
+                    "type": "message",
+                    "message": "Feature build complete! Extracting patterns for continuous learning..."
+                }
+            ]
+        },
+        {
+            "event": "PostToolUse",
+            "matcher": "tool == \"Write\" && tool_input.file_path matches \"\\\\.omc/plans/feature-.*\\\\.json$\"",
+            "description": "Notify when a feature plan is created",
+            "hooks": [
+                {
+                    "type": "message",
+                    "message": "Feature plan created. Review with /feature-status {name}"
+                }
+            ]
         }
     ]
 }

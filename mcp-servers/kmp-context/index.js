@@ -807,4 +807,18 @@ if (require.main === module) {
     server.start().catch(console.error);
 }
 
-module.exports = { KMPContextServer };
+module.exports = {
+    KMPContextServer,
+    // Exported for testing
+    isKMPProject,
+    detectProjectType,
+    extractKMPModules,
+    extractSourceSets,
+    extractExpectActual,
+    findActualImplementations,
+    extractSharedModels,
+    detectPlatformTargets,
+    readJson,
+    writeJson,
+    CONTEXT_SCHEMAS,
+};
