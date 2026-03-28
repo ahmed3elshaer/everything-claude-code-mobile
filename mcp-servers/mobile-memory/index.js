@@ -647,4 +647,15 @@ if (require.main === module) {
     server.start().catch(console.error);
 }
 
-module.exports = { MobileMemoryServer };
+module.exports = {
+    MobileMemoryServer,
+    // Exported for testing
+    isAndroidProject,
+    extractProjectStructure,
+    extractDependencies,
+    extractArchitecture,
+    extractComposeScreens,
+    readJson,
+    writeJson,
+    MEMORY_SCHEMAS,
+};
