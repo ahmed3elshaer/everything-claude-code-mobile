@@ -298,12 +298,12 @@ describe('Feature Builder - Plugin Registration', () => {
         assert.ok(plugin.skills, 'Should have skills array');
     });
 
-    it('should list all 25 agents', () => {
+    it('should list all 27 agents', () => {
         const plugin = readJson(PLUGIN_FILE);
         assert.strictEqual(
             plugin.agents.length,
-            25,
-            `Expected 25 agents, got ${plugin.agents.length}`
+            27,
+            `Expected 27 agents, got ${plugin.agents.length}`
         );
     });
 
