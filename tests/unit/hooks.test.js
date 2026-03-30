@@ -10,10 +10,19 @@ const { execSync } = require('child_process');
 const { describe, it, beforeEach, afterEach } = require('node:test');
 const assert = require('node:assert');
 
-const { setupTestProject, cleanupTestProject } = require('./mcp-server.test.js');
-
-const TEST_DIR = path.join(__dirname, '../fixtures/test-project');
+const TEST_DIR = path.join(__dirname, '../fixtures/hooks-test-project');
 const HOOKS_DIR = path.join(__dirname, '../../scripts/hooks');
+
+function setupTestProject() {
+    fs.mkdirSync(TEST_DIR, { recursive: true });
+    fs.mkdirSync(path.join(TEST_DIR, 'src/main/java/com/example/ui'), { recursive: true });
+}
+
+function cleanupTestProject() {
+    if (fs.existsSync(TEST_DIR)) {
+        fs.rmSync(TEST_DIR, { recursive: true, force: true });
+    }
+}
 
 describe('Hook Scripts - Pattern Extraction', () => {
     beforeEach(() => {
@@ -319,9 +328,3 @@ dependencies {
     });
 });
 
-if (require.main === module) {
-    console.log('Running Hook Scripts tests...\n');
-    run();
-}
-
-module.exports = { setupTestProject, cleanupTestProject };

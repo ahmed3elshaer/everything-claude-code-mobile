@@ -326,13 +326,13 @@ function extractStateProperties(content, viewName) {
     }
 
     // Find @Binding properties
-    const bindingMatches = content.matchAll/@Binding\s+(?:var|let)\s+(\w+)\s*:\s*(\S+)/g);
+    const bindingMatches = content.matchAll(/@Binding\s+(?:var|let)\s+(\w+)\s*:\s*(\S+)/g);
     for (const match of bindingMatches) {
         properties.push({ name: match[1], type: match[2], kind: 'Binding' });
     }
 
     // Find @ObservedObject properties
-    const observedMatches = content.matchAll/@ObservedObject\s+(?:var|let)\s+(\w+)\s*:\s*(\S+)/g);
+    const observedMatches = content.matchAll(/@ObservedObject\s+(?:var|let)\s+(\w+)\s*:\s*(\S+)/g);
     for (const match of observedMatches) {
         properties.push({ name: match[1], type: match[2], kind: 'ObservedObject' });
     }
@@ -350,7 +350,7 @@ function extractIOSDependencies(projectRoot) {
         const content = fs.readFileSync(packageFile, 'utf8');
 
         // Extract package dependencies
-        const packageMatches = content.matchAll(/package\s*\(\s*url:\s*["']([^"']+)["'](?:,\s*from:\s*["']([^"']+)["'](?:,\s*exact:)?/g);
+        const packageMatches = content.matchAll(/\.package\s*\(\s*url:\s*["']([^"']+)["'](?:,\s*from:\s*["']([^"']+)["'])?/g);
         for (const match of packageMatches) {
             deps.spmPackages.push({
                 url: match[1],
@@ -769,4 +769,17 @@ if (require.main === module) {
     server.start().catch(console.error);
 }
 
-module.exports = { IOSMemoryServer };
+module.exports = {
+    IOSMemoryServer,
+    // Exported for testing
+    isIOSProject,
+    findXcodeProject,
+    extractXcodeProject,
+    extractSwiftUIViews,
+    extractIOSDependencies,
+    extractInfoPlist,
+    extractStateProperties,
+    readJson,
+    writeJson,
+    MEMORY_SCHEMAS,
+};

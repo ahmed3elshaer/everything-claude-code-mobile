@@ -36,6 +36,19 @@
     "./agents/xcode-build-resolver.md",
     "./agents/swiftui-guide.md",
     "./agents/kmp-architect.md",
-    "./agents/shared-model-designer.md"
+    "./agents/shared-model-designer.md",
+    "./agents/mobile-compactor.md",
+    "./agents/mobile-pattern-extractor.md",
+    "./agents/mobile-verifier.md",
+    "./agents/feature-planner.md",
+    "./agents/network-impl.md",
+    "./agents/data-impl.md",
+    "./agents/architecture-impl.md",
+    "./agents/ui-impl.md",
+    "./agents/wiring-impl.md",
+    "./agents/unit-test-writer.md",
+    "./agents/ui-test-writer.md",
+    "./agents/m3-expressive-guide.md",
+    "./agents/liquid-glass-guide.md"
   ]
 }
