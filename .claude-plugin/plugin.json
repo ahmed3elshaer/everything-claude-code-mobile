@@ -20,7 +20,5 @@
     "swiftui",
     "gradle",
     "xcode"
-  ],
-  "skills": "../skills/",
-  "agents": "../agents/"
+  ]
 }
