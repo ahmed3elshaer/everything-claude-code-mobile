@@ -1,116 +1,57 @@
 ---
 name: mobile-instinct-v2
-description: V2 instinct-based observational learning. Analyzes sessions to extract reusable mobile development patterns across time.
+description: "Cross-session observational learning that extracts architectural and workflow patterns from mobile development over time. Use when analyzing session history for recurring decisions, identifying emerging patterns, or reviewing how development approaches evolve across multiple sessions."
 ---
 
-# Mobile Instinct v2 - Observational Learning
+# Mobile Instinct v2 — Observational Learning
 
-Cross-session observational learning that extracts patterns from your development workflow over time.
+Extracts reusable patterns by observing development sessions over time, complementing V1's real-time capture with cross-session analysis.
 
-## Overview
+## Workflow
 
-V2 instincts **observe your sessions** and extract patterns that emerge across multiple development activities. Unlike V1's immediate capture, V2 looks for:
-- Recurring architectural decisions
-- Problem-solving approaches
-- Code organization patterns
-- Testing strategies
-
-## Session Analysis
-
-At session end, V2 analyzes:
-1. **Code changes**: What was modified
-2. **Problem context**: What issue was being solved
-3. **Solution approach**: How it was resolved
-4. **Dependencies**: What libraries/techniques were used
-
-## Pattern Categories
-
-### Architectural Patterns
-
-| Pattern | Detected By | Example |
-|---------|-------------|---------|
-| `layer-separation` | Consistent data/ui/domain separation | Repository + ViewModel + Composable |
-| `dependency-injection` | Koin module patterns | factoryOf, viewModel |
-| `navigation-pattern` | Compose Navigation usage | NavHost with routes |
-| `state-management` | MVI/MVVM consistency | StateFlow + sealed classes |
-
-### Problem-Solution Patterns
-
-| Pattern | Detected By | Example |
-|---------|-------------|---------|
-| `error-boundary` | Try-catch with UI feedback | Error state in Composable |
-| `loading-state` | isLoading + Content pattern | Box with progress |
-| `pagination` | LazyColumn with Pager | Paging 3 integration |
-| `caching-strategy` | Repository layer caching | Cached repository pattern |
-
-### Code Organization Patterns
-
-| Pattern | Detected By | Example |
-|---------|-------------|---------|
-| `feature-module` | Self-contained feature folders | feature/auth/ structure |
-| `shared-UI` | Reusable Composables | ui/components/ |
-| `test-mirroring` | Test structure matching src | Parallel test folders |
-| `naming-convention` | Consistent naming patterns | XxxViewModel, XxxScreen |
+1. **Observe**: At session end, the agent analyzes code changes, problem context, solution approach, and dependencies used.
+2. **Extract**: Identify recurring patterns across the current session and sliding observation windows (see Observation Windows).
+3. **Score**: Assign confidence based on recurrence — patterns seen in 1–3 sessions start at 0.1–0.3; those persisting across 20+ sessions reach 0.8–1.0.
+4. **Validate**: Run `/instinct-status --v2` and verify:
+   - New observations appear under the correct pattern category
+   - Confidence scores reflect actual recurrence (not inflated by similar but distinct patterns)
+   - No duplicate patterns exist across V1 and V2
+5. **Cluster**: Related observations merge into higher-confidence patterns automatically.
 
 ## Observation Windows
 
-V2 uses sliding windows for pattern detection:
+| Window | Scope | Pattern Level |
+|--------|-------|---------------|
+| Current session | Immediate patterns from this session | Experimental (0.1–0.3) |
+| Last 5 sessions | Emerging patterns with early validation | Validating (0.3–0.6) |
+| Last 20 sessions | Consistent patterns across projects | Established (0.6–0.8) |
+| All time | Core development practices | Best practice (0.8–1.0) |
 
-```
-Window 1 (Current Session):    Immediate patterns
-Window 2 (Last 5 Sessions):    Emerging patterns
-Window 3 (Last 20 Sessions):   Established patterns
-Window 4 (All Time):           Core patterns
-```
+## Session Analysis
 
-## Confidence Evolution
+At each session end, V2 evaluates:
 
-```
-Session 1-3:    Experimental (0.1-0.3)
-Session 4-10:   Validating (0.3-0.6)
-Session 11-20:  Established (0.6-0.8)
-Session 20+:    Best Practice (0.8-1.0)
-```
+- **Code changes**: Files modified, functions added/changed, patterns in diffs
+- **Problem context**: Error messages, bug descriptions, feature requirements addressed
+- **Solution approach**: Architectural decisions made, libraries chosen, patterns applied
+- **Dependencies**: Frameworks and tools used in the solution
+
+## Pattern Categories
+
+**Architectural**: Layer separation, dependency injection patterns, navigation structure, state management approach
+**Problem-solution**: Error boundaries, loading states, pagination, caching strategies
+**Code organization**: Feature modules, shared UI components, test mirroring, naming conventions
 
 ## Commands
 
-### View Observations
-
-```
-/instinct-status --v2
-/instinct-status --observations
-```
-
-Shows:
-- Recent session observations
-- Emerging patterns (low confidence)
-- Established patterns (high confidence)
-- Pattern clusters by domain
-
-### Manual Observation
-
-```
-/instinct-observe "Used Ktor with retry pattern for API calls"
-```
-
-Manually add an observation for pattern learning.
+| Command | Purpose |
+|---------|---------|
+| `/instinct-status --v2` | View V2 observations with confidence and recurrence data |
+| `/instinct-status --observations` | List raw session observations not yet promoted to patterns |
+| `/instinct-observe "<note>"` | Manually add an observation for pattern learning |
 
 ## Integration
 
-V2 instincts are evaluated by:
-1. **Session hooks**: `hooks/instinct-hooks.json` Stop event
-2. **Pattern extractor**: `agents/mobile-pattern-extractor.md`
-3. **Pre-compact preservation**: Maintains learning during context compression
-
-## Difference from V1
-
-| Aspect | V1 | V2 |
-|--------|----|----|
-| Trigger | Code write | Session observation |
-| Scope | Single file | Cross-file patterns |
-| Timing | Immediate | End of session |
-| Focus | Code patterns | Architectural patterns |
-
----
-
-**Remember**: V2 needs multiple sessions to build confidence. The more you develop, the smarter it gets.
+- **Session hooks**: `hooks/instinct-hooks.json` `Stop` event triggers V2 analysis
+- **Pattern extractor**: `agents/mobile-pattern-extractor.md` performs the cross-session diff analysis
+- **Pre-compact preservation**: V2 observations persist through context compression
