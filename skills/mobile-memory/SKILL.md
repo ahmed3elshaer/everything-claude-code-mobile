@@ -1,217 +1,96 @@
 ---
 name: mobile-memory
-description: Memory persistence for mobile development context across sessions. Maintains project structure, dependencies, architecture, and test state.
+description: "Persist and query mobile project state across sessions including module structure, dependencies, architecture patterns, and test coverage. Use when starting a session to load context, after major changes to save state, or when querying project facts without reading files."
 ---
 
-# Mobile Memory Skill
+# Mobile Memory — Cross-Session Project State
 
-Persistent memory system that maintains mobile development context across sessions.
+Persists factual project state (modules, dependencies, architecture, tests) across sessions and context compressions, enabling the agent to resume work without re-reading the entire project.
 
-## Purpose
+## Workflow
 
-Unlike instincts (which capture patterns), memory retains **factual project state**:
-- What modules exist
-- What dependencies are installed
-- What the architecture looks like
-- What tests cover what code
-
-This survives session breaks and compaction.
+1. **Load**: At session start, run `/memory-load all` to restore project context.
+2. **Validate**: After loading, verify memory matches the actual project:
+   - Check that listed modules still exist on disk
+   - Confirm key dependencies match `build.gradle.kts` versions
+   - Verify listed screens exist in the expected file paths
+3. **Query**: Use `/memory-query` during development instead of asking the user for project facts.
+4. **Save**: After significant changes (new modules, dependency updates, architecture shifts), run `/memory-save <type>`.
+5. **Clean**: Remove stale entries with `/memory-forget --older-than 90days`.
 
 ## Memory Types
 
-### Project Structure Memory
+| Type | Contents | Refresh trigger |
+|------|----------|----------------|
+| `project-structure` | Module list, build variants, feature modules | Gradle sync |
+| `dependencies` | Library versions, Gradle/KGP versions | Gradle sync |
+| `architecture` | MVI/MVVM pattern, layer structure, DI framework | File changes |
+| `test-coverage` | Coverage percentage, trends, failing tests | Test runs |
+| `compose-screens` | Screen names, routes, file paths | File changes |
 
-Remembers your Android project layout:
+## Commands
+
+| Command | Purpose |
+|---------|---------|
+| `/memory-load all` | Load all memory types at session start |
+| `/memory-load <type>` | Load a specific memory type (e.g., `dependencies`) |
+| `/memory-save <type>` | Save current state for a memory type |
+| `/memory-save all` | Save all memory types (usually automatic) |
+| `/memory-query "<question>"` | Query project facts (e.g., "What modules use Ktor?") |
+| `/memory-forget <type>` | Remove a specific memory type |
+| `/memory-forget --older-than <duration>` | Clean stale entries |
+| `/memory-summary` | Overview of all stored memory with freshness dates |
+
+## Storage
+
+Memory is stored as JSON in `.claude/memory/`. Each memory type maps to a file:
+
+```
+.claude/memory/project-structure.json
+.claude/memory/dependencies.json
+.claude/memory/architecture.json
+.claude/memory/test-coverage.json
+.claude/memory/compose-screens.json
+```
+
+Example `project-structure.json`:
+
 ```json
 {
-    "modules": ["app", "core:network", "feature:auth"],
-    "buildVariants": ["debug", "release", "staging"],
-    "featureModules": ["auth", "home", "profile"]
+  "modules": ["app", "core:network", "core:database", "feature:auth", "feature:home"],
+  "buildVariants": ["debug", "release", "staging"],
+  "featureModules": ["auth", "home", "profile"],
+  "lastUpdated": "2026-04-10T14:30:00Z"
 }
 ```
 
-**Use when**: Starting work on a new feature, need to know project layout
+## Validation After Load
 
-### Dependencies Memory
-
-Tracks all Gradle dependencies:
-```json
-{
-    "libraries": [
-        {"name": "compose-runtime", "group": "androidx.compose", "version": "1.5.0"}
-    ],
-    "kgpVersion": "1.9.20",
-    "gradleVersion": "8.2"
-}
-```
-
-**Use when**: Adding new dependencies, checking compatibility
-
-### Architecture Memory
-
-Documents your architecture patterns:
-```json
-{
-    "pattern": "mvi",
-    "uiLayer": {"screens": ["Home", "Profile"]},
-    "dataLayer": {"repositories": ["UserRepository"]},
-    "di": {"framework": "koin", "modules": ["appModule"]}
-}
-```
-
-**Use when**: Onboarding new developers, explaining codebase
-
-### Test Coverage Memory
-
-Tracks test metrics:
-```json
-{
-    "totalCoverage": 78,
-    "trend": "improving",
-    "failingTests": [
-        {"class": "AuthViewModelTest", "method": "testLogin"}
-    ]
-}
-```
-
-**Use when**: Planning testing work, tracking quality goals
-
-### Compose Screens Memory
-
-Indexes all Composable screens:
-```json
-{
-    "screens": [
-        {"name": "HomeScreen", "route": "home", "file": "HomeScreen.kt"}
-    ]
-}
-```
-
-**Use when**: Finding screens, understanding navigation
-
-## Usage
-
-### Load Memory
+After `/memory-load all`, verify accuracy before relying on cached state:
 
 ```bash
-# At session start - load all memory
-/memory-load all
+# Check modules exist
+/memory-query "What modules exist?"
+# Then verify: ls -d app/ core/ feature/*/
 
-# Load specific type
-/memory-load project-structure
-/memory-load dependencies
+# Check dependency versions
+/memory-query "What Compose version?"
+# Then verify against build.gradle.kts
 ```
 
-### Save Memory
+If memory is stale, run `/memory-save all` to refresh from the current project state.
 
-```bash
-# Save current state
-/memory-save project-structure
-/memory-save test-coverage
+## Integration
 
-# Save all (usually automatic)
-/memory-save all
-```
-
-### Query Memory
-
-```bash
-# Ask questions about project
-/memory-query "What modules use Ktor?"
-/memory-query "Which screens are not tested?"
-/memory-query "What's the test coverage for auth module?"
-```
-
-### Forget Memory
-
-```bash
-# Remove stale memory
-/memory-forget recent-changes
-/memory-forget --older-than 90days
-```
-
-### Summary
-
-```bash
-# Get overview of all memory
-/memory-summary
-```
-
-## Memory Refresh Triggers
-
-Memory auto-refreshes on:
-- **Gradle sync**: Dependencies, build variants
-- **File changes**: Recent changes, architecture
-- **Test runs**: Test coverage, failing tests
-- **Session start**: Load all memory
-- **Session end**: Save all memory
+- **With checkpoints**: Checkpoint restore includes memory state — no manual reload needed
+- **With compaction**: Memory survives context compression; old entries are summarized automatically
+- **With instincts**: Memory informs pattern extraction — project structure tells instincts where to look for patterns
 
 ## Memory vs Instincts
 
 | Aspect | Memory | Instincts |
 |--------|--------|-----------|
-| Content | Factual state | Patterns |
-| Examples | Module list, deps | "Use collectAsStateWithLifecycle" |
-| Updates | On changes | On observations |
-| Confidence | Binary (exists/doesn't) | 0.0-1.0 score |
-| Retention | 30-90 days | Persistent |
-
-## Integration
-
-### With Checkpoints
-
-Checkpoints include memory state:
-```json
-{
-    "checkpoint": {
-        "memory": {
-            "project-structure": {...},
-            "dependencies": {...}
-        }
-    }
-}
-```
-
-Restoring a checkpoint restores memory too.
-
-### With Compaction
-
-Memory survives compaction:
-- Recent memory: Kept as-is
-- Old memory: Summarized
-- Always available via `/memory-query`
-
-### With Instincts
-
-Memory informs instinct extraction:
-- Project structure → Where to look for patterns
-- Dependencies → What frameworks are used
-- Architecture → What patterns to expect
-
-## Best Practices
-
-1. **Let it auto-refresh**: Memory updates automatically on hooks
-2. **Query, don't remember**: Use `/memory-query` instead of asking user
-3. **Validate on load**: Check memory matches actual project
-4. **Update after changes**: Run `/memory-save` after major changes
-5. **Clean up**: Use `/memory-forget` to remove stale data
-
-## Example Session
-
-```
-User: I need to add a new feature for user profiles
-
-Agent: /memory-query project-structure
-Response: Found modules: app, core:network, feature:auth
-       No profile module exists.
-
-Agent: /memory-query dependencies
-Response: Using Compose 1.5.0, Ktor 2.3.0, Koin 3.4.0
-
-Agent: Based on memory, I'll create feature:profile module
-       following your existing architecture pattern.
-```
-
----
-
-**Remember**: Memory is about what **exists**, not what **should be**. That's what instincts are for.
+| Content | Factual state (what exists) | Patterns (how to build) |
+| Updates | On project changes | On pattern observations |
+| Confidence | Binary (current or stale) | 0.0–1.0 scored |
+| Retention | 30–90 days, then cleaned | Persistent |
