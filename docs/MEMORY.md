@@ -8,4 +8,6 @@
 - Plugin installation does not run `npm install` inside each MCP server. The three servers therefore use the dependency-free shared transport in `mcp-servers/lib/mcp-stdio.js`.
 - Codex CLI 0.140.0 does not interpolate `${CLAUDE_PLUGIN_ROOT}` in MCP arguments and strips `CODEX_HOME` from MCP processes. `.mcp.json` passes the root explicitly for Claude and derives the active Codex home from its generated `PATH` entry before reading the native plugin cache.
 - Portability is capability-based: Claude has the full subagent/command surface, Codex has skills/hooks/MCP, and rule-only hosts use thin adapters derived from `AGENTS.md`.
+- Keep the README support matrix capability-specific: distinguish native plugins, repository adapters, manual MCP setup, and host-dependent support instead of claiming identical behavior everywhere.
+- For non-marketplace hosts, document one shared checkout and absolute MCP entrypoint paths. Relative paths only work when the toolkit repository itself is the active workspace.
 - Run `npm run check:adapters` after changing `AGENTS.md`, and keep live MCP handshake coverage in `tests/unit/mcp-stdio.test.js`.
