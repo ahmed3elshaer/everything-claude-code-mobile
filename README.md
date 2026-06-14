@@ -11,9 +11,9 @@
 
 ---
 
-**The complete collection of Claude Code configs for mobile development.**
+**A portable mobile development toolkit for Claude Code, Codex, and other coding agents.**
 
-27 agents, 48 skills, 35 commands, and 3 MCP servers for **Android**, **iOS**, and **Kotlin Multiplatform** development. Includes an end-to-end feature builder that plans, implements, tests, and reviews entire features automatically.
+27 agents, 46 skills, 35 commands, and 3 MCP servers for **Android**, **iOS**, and **Kotlin Multiplatform** development. Includes an end-to-end feature builder that plans, implements, tests, and reviews entire features automatically.
 
 > Mobile companion to [everything-claude-code](https://github.com/ahmed3elshaer/everything-claude-code)
 
@@ -28,17 +28,17 @@
 /plugin marketplace add ahmed3elshaer/everything-claude-code-mobile
 
 # Install plugin
-/plugin install everything-claude-code-mobile@ahmed3elshaer
+/plugin install everything-claude-code-mobile@everything-claude-code-mobile
+
+# Load skills, hooks, agents, commands, and MCP tools
+/reload-plugins
 ```
 
-### Step 2: Install Rules (Required)
+### Step 2: Verify the Plugin
 
 ```bash
-# Clone the repo first
-git clone https://github.com/ahmed3elshaer/everything-claude-code-mobile.git
-
-# Copy rules (applies to all projects)
-cp -r everything-claude-code-mobile/rules/* ~/.claude/rules/
+/plugin details everything-claude-code-mobile@everything-claude-code-mobile
+/mcp
 ```
 
 ### Step 3: Start Using
@@ -56,9 +56,19 @@ cp -r everything-claude-code-mobile/rules/* ~/.claude/rules/
 # TDD workflow
 /mobile-tdd
 
-# Check all commands
-/plugin list everything-claude-code-mobile@ahmed3elshaer
+# Check the installed plugin
+/plugin details everything-claude-code-mobile@everything-claude-code-mobile
 ```
+
+### Codex
+
+```bash
+codex plugin marketplace add ahmed3elshaer/everything-claude-code-mobile
+codex plugin add everything-claude-code-mobile@everything-claude-code-mobile
+codex plugin list --json
+```
+
+Review the bundled hooks with `/hooks`, then start a new thread. See [Agent Portability](docs/agent-portability.md) for OpenCode, Pi, Cursor, Windsurf, Cline, Copilot, Aider, and Kiro.
 
 ---
 

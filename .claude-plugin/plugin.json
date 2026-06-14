@@ -1,6 +1,6 @@
 {
   "name": "everything-claude-code-mobile",
-  "version": "1.1.5",
+  "version": "1.2.0",
   "description": "Complete Claude Code configs for mobile development - Android, iOS, and Kotlin Multiplatform",
   "author": {
     "name": "ahmed3elshaer",
@@ -21,7 +21,5 @@
     "gradle",
     "xcode"
   ],
-  "skills": "./skills/",
-  "agents": "./agents/",
-  "commands": "./commands/"
+  "mcpServers": "./.mcp.json"
 }

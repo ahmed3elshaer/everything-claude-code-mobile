@@ -5,7 +5,15 @@
 const fs = require('fs');
 const path = require('path');
 
-const dirs = ['hooks', 'mcp-configs', '.claude-plugin'];
+const dirs = [
+    'hooks',
+    'mcp-configs',
+    '.claude-plugin',
+    '.codex-plugin',
+    '.agents/plugins',
+    '.cursor',
+    '.cline'
+];
 let failed = false;
 
 for (const dir of dirs) {
@@ -22,6 +30,17 @@ for (const dir of dirs) {
             console.error(`FAIL: ${dir}/${file} - ${e.message}`);
             failed = true;
         }
+    }
+}
+
+for (const file of ['opencode.json', 'package.json']) {
+    const filePath = path.join(__dirname, '..', file);
+    try {
+        JSON.parse(fs.readFileSync(filePath, 'utf8'));
+        console.log(`OK: ${file}`);
+    } catch (e) {
+        console.error(`FAIL: ${file} - ${e.message}`);
+        failed = true;
     }
 }
 

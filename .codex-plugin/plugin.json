@@ -1,0 +1,30 @@
+{
+  "name": "everything-claude-code-mobile",
+  "version": "1.2.0",
+  "description": "Mobile development skills and MCP tools for Android, iOS, and Kotlin Multiplatform.",
+  "author": {
+    "name": "ahmed3elshaer",
+    "url": "https://github.com/ahmed3elshaer"
+  },
+  "homepage": "https://github.com/ahmed3elshaer/everything-claude-code-mobile",
+  "repository": "https://github.com/ahmed3elshaer/everything-claude-code-mobile",
+  "license": "MIT",
+  "keywords": ["mobile", "android", "ios", "kmp", "swiftui", "jetpack-compose"],
+  "skills": "./skills/",
+  "mcpServers": "./.mcp.json",
+  "interface": {
+    "displayName": "Everything Mobile",
+    "shortDescription": "Android, iOS, and KMP development toolkit",
+    "longDescription": "Reusable mobile development skills, lifecycle hooks, and persistent project-context tools for Android, iOS, and Kotlin Multiplatform projects.",
+    "developerName": "ahmed3elshaer",
+    "category": "Developer Tools",
+    "capabilities": ["Instructions", "MCP tools", "Lifecycle hooks"],
+    "websiteURL": "https://github.com/ahmed3elshaer/everything-claude-code-mobile",
+    "defaultPrompt": [
+      "Plan and build this mobile feature.",
+      "Review this Android or iOS change.",
+      "Refresh the mobile project memory."
+    ],
+    "brandColor": "#7F52FF"
+  }
+}

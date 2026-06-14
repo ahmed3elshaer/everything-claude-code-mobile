@@ -1,0 +1,21 @@
+{
+  "name": "everything-claude-code-mobile",
+  "interface": {
+    "displayName": "Everything Claude Code Mobile"
+  },
+  "plugins": [
+    {
+      "name": "everything-claude-code-mobile",
+      "source": {
+        "source": "url",
+        "url": "https://github.com/ahmed3elshaer/everything-claude-code-mobile.git",
+        "ref": "main"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Developer Tools"
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "mcpServers": {
+    "mobile-memory": {
+      "command": "node",
+      "args": ["mcp-servers/mobile-memory/index.js"]
+    },
+    "ios-memory": {
+      "command": "node",
+      "args": ["mcp-servers/ios-memory/index.js"]
+    },
+    "kmp-context": {
+      "command": "node",
+      "args": ["mcp-servers/kmp-context/index.js"]
+    }
+  }
+}

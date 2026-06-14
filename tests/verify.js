@@ -353,10 +353,10 @@ function main() {
 
     log('Verification', 'Mobile Port Improvement Plan implementation complete!', 'success');
     console.log('\nNext steps:');
-    console.log('  1. Install MCP SDK: cd mcp-servers/mobile-memory && npm install');
-    console.log('  2. Run tests: npm test (or node tests/unit/*.test.js)');
-    console.log('  3. Configure Claude Code to use the MCP server');
-    console.log('  4. Configure hooks in hooks/hooks.json');
+    console.log('  1. Run tests: npm test');
+    console.log('  2. Validate Claude packaging: claude plugin validate . --strict');
+    console.log('  3. Verify tools in Claude Code with /mcp');
+    console.log('  4. Verify Codex installation with codex plugin list --json');
 }
 
 main();

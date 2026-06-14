@@ -1,0 +1,31 @@
+{
+  "mcpServers": {
+    "mobile-memory": {
+      "command": "node",
+      "args": [
+        "-e",
+        "const p=require('node:path'),f=require('node:fs'),o=require('node:os'),e=process.env,a=process.argv[1],rel='mcp-servers/start.js';let r=a&&!a.startsWith('${')?a:e.CLAUDE_PLUGIN_ROOT||e.PLUGIN_ROOT||e.CODEX_PLUGIN_ROOT||process.cwd();if(!f.existsSync(p.join(r,rel))){const hs=(e.PATH||'').split(p.delimiter).filter(x=>x.includes(p.join('tmp','arg0'))).map(x=>p.dirname(p.dirname(p.dirname(x))));hs.push(e.CODEX_HOME,p.join(o.homedir(),'.codex'));for(const h of hs.filter(Boolean)){const c=p.join(h,'plugins','cache');for(const m of f.existsSync(c)?f.readdirSync(c):[]){const d=p.join(c,m,'everything-claude-code-mobile');for(const v of f.existsSync(d)?f.readdirSync(d).sort().reverse():[]){const x=p.join(d,v);if(f.existsSync(p.join(x,rel))){r=x;break}}if(f.existsSync(p.join(r,rel)))break}if(f.existsSync(p.join(r,rel)))break}}require(p.join(r,rel))",
+        "${CLAUDE_PLUGIN_ROOT}",
+        "mobile-memory"
+      ]
+    },
+    "ios-memory": {
+      "command": "node",
+      "args": [
+        "-e",
+        "const p=require('node:path'),f=require('node:fs'),o=require('node:os'),e=process.env,a=process.argv[1],rel='mcp-servers/start.js';let r=a&&!a.startsWith('${')?a:e.CLAUDE_PLUGIN_ROOT||e.PLUGIN_ROOT||e.CODEX_PLUGIN_ROOT||process.cwd();if(!f.existsSync(p.join(r,rel))){const hs=(e.PATH||'').split(p.delimiter).filter(x=>x.includes(p.join('tmp','arg0'))).map(x=>p.dirname(p.dirname(p.dirname(x))));hs.push(e.CODEX_HOME,p.join(o.homedir(),'.codex'));for(const h of hs.filter(Boolean)){const c=p.join(h,'plugins','cache');for(const m of f.existsSync(c)?f.readdirSync(c):[]){const d=p.join(c,m,'everything-claude-code-mobile');for(const v of f.existsSync(d)?f.readdirSync(d).sort().reverse():[]){const x=p.join(d,v);if(f.existsSync(p.join(x,rel))){r=x;break}}if(f.existsSync(p.join(r,rel)))break}if(f.existsSync(p.join(r,rel)))break}}require(p.join(r,rel))",
+        "${CLAUDE_PLUGIN_ROOT}",
+        "ios-memory"
+      ]
+    },
+    "kmp-context": {
+      "command": "node",
+      "args": [
+        "-e",
+        "const p=require('node:path'),f=require('node:fs'),o=require('node:os'),e=process.env,a=process.argv[1],rel='mcp-servers/start.js';let r=a&&!a.startsWith('${')?a:e.CLAUDE_PLUGIN_ROOT||e.PLUGIN_ROOT||e.CODEX_PLUGIN_ROOT||process.cwd();if(!f.existsSync(p.join(r,rel))){const hs=(e.PATH||'').split(p.delimiter).filter(x=>x.includes(p.join('tmp','arg0'))).map(x=>p.dirname(p.dirname(p.dirname(x))));hs.push(e.CODEX_HOME,p.join(o.homedir(),'.codex'));for(const h of hs.filter(Boolean)){const c=p.join(h,'plugins','cache');for(const m of f.existsSync(c)?f.readdirSync(c):[]){const d=p.join(c,m,'everything-claude-code-mobile');for(const v of f.existsSync(d)?f.readdirSync(d).sort().reverse():[]){const x=p.join(d,v);if(f.existsSync(p.join(x,rel))){r=x;break}}if(f.existsSync(p.join(r,rel)))break}if(f.existsSync(p.join(r,rel)))break}}require(p.join(r,rel))",
+        "${CLAUDE_PLUGIN_ROOT}",
+        "kmp-context"
+      ]
+    }
+  }
+}

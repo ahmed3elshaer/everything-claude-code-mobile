@@ -10,9 +10,7 @@
 const fs = require('fs');
 const path = require('path');
 
-// MCP Server SDK
-const MCPServer = require('@modelcontextprotocol/sdk/server/index.js').Server;
-const { StdioServerTransport } = require('@modelcontextprotocol/sdk/server/stdio.js');
+const { Server: MCPServer, StdioServerTransport } = require('../lib/mcp-stdio');
 
 // Configuration
 const CONTEXT_DIR = process.env.KMP_CONTEXT_DIR || '.claude/kmp-context';

@@ -1,21 +1,17 @@
 {
-    "name": "everything-claude-code-mobile",
-    "metadata": {
-        "description": "A marketplace for mobile development plugins featuring skills, agents, and commands for Android, iOS, and Kotlin Multiplatform workflows"
-    },
-    "owner": {
-        "name": "ahmed3elshaer"
-    },
-    "plugins": [
-        {
-            "name": "everything-claude-code-mobile",
-            "description": "Complete Claude Code configs for mobile development - Android, iOS, and Kotlin Multiplatform",
-            "version": "1.1.5",
-            "source": {
-                "source": "github",
-                "repo": "ahmed3elshaer/everything-claude-code-mobile"
-            },
-            "tags": ["mobile", "android", "ios", "kotlin", "swift", "kmp", "jetpack-compose", "swiftui"]
-        }
-    ]
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "everything-claude-code-mobile",
+  "description": "Mobile development skills, agents, commands, hooks, and MCP tools for Android, iOS, and Kotlin Multiplatform.",
+  "owner": {
+    "name": "ahmed3elshaer",
+    "url": "https://github.com/ahmed3elshaer"
+  },
+  "plugins": [
+    {
+      "name": "everything-claude-code-mobile",
+      "description": "Complete mobile development toolkit for Android, iOS, and Kotlin Multiplatform.",
+      "source": "./",
+      "category": "development"
+    }
+  ]
 }

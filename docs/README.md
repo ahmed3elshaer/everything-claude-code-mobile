@@ -5,8 +5,9 @@ Comprehensive guides for mobile development with Claude Code.
 ## Quick Start
 
 1. [Installation Guide](./installation.md) - Setup the plugin
-2. [Android Setup](./android-setup.md) - Configure Android development
-3. [Architecture Guide](./architecture.md) - MVI and Clean Architecture
+2. [Agent Portability](./agent-portability.md) - Claude, Codex, OpenCode, Cursor, and other harnesses
+3. [Android Setup](./android-setup.md) - Configure Android development
+4. [Architecture Guide](./architecture.md) - MVI and Clean Architecture
 
 ## Reference
 

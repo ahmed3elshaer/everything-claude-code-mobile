@@ -294,53 +294,37 @@ describe('Feature Builder - Plugin Registration', () => {
         const plugin = readJson(PLUGIN_FILE);
         assert.ok(plugin, 'plugin.json should be valid JSON');
         assert.ok(plugin.name, 'Should have a name');
-        assert.ok(plugin.agents, 'Should have agents array');
-        assert.ok(plugin.skills, 'Should have skills array');
+        assert.ok(plugin.version, 'Should have a version');
     });
 
-    it('should list all 27 agents', () => {
-        const plugin = readJson(PLUGIN_FILE);
-        assert.strictEqual(
-            plugin.agents.length,
-            27,
-            `Expected 27 agents, got ${plugin.agents.length}`
-        );
+    it('should expose all 27 agents through native directory discovery', () => {
+        const agents = fs.readdirSync(AGENTS_DIR).filter(file => file.endsWith('.md'));
+        assert.strictEqual(agents.length, 27, `Expected 27 agents, got ${agents.length}`);
     });
 
-    it('should have all listed agent files existing on disk', () => {
-        const plugin = readJson(PLUGIN_FILE);
-        for (const agentPath of plugin.agents) {
-            const resolved = path.resolve(ROOT_DIR, agentPath);
-            assert.ok(
-                fs.existsSync(resolved),
-                `Agent file should exist: ${agentPath}`
-            );
-        }
+    it('should use the default plugin component directories', () => {
+        assert.ok(fs.existsSync(AGENTS_DIR), 'agents directory should exist');
+        assert.ok(fs.existsSync(COMMANDS_DIR), 'commands directory should exist');
+        assert.ok(fs.existsSync(SKILLS_DIR), 'skills directory should exist');
     });
 
     it('should include all 8 new feature agents', () => {
-        const plugin = readJson(PLUGIN_FILE);
         const newAgents = [
             'feature-planner', 'network-impl', 'data-impl',
             'architecture-impl', 'ui-impl', 'wiring-impl',
             'unit-test-writer', 'ui-test-writer',
         ];
         for (const agent of newAgents) {
-            const found = plugin.agents.some(a => a.includes(agent));
-            assert.ok(found, `plugin.json should list ${agent}`);
+            assert.ok(
+                fs.existsSync(path.join(AGENTS_DIR, `${agent}.md`)),
+                `agents/${agent}.md should exist`
+            );
         }
     });
 
-    it('should have skills array pointing to skills and commands', () => {
-        const plugin = readJson(PLUGIN_FILE);
-        assert.ok(
-            plugin.skills.some(s => s.includes('skills')),
-            'Should have skills directory reference'
-        );
-        assert.ok(
-            plugin.skills.some(s => s.includes('commands')),
-            'Should have commands directory reference'
-        );
+    it('should expose skills and commands through their default directories', () => {
+        assert.ok(fs.readdirSync(SKILLS_DIR).length > 0, 'skills directory should not be empty');
+        assert.ok(fs.readdirSync(COMMANDS_DIR).length > 0, 'commands directory should not be empty');
     });
 });
 

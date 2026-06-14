@@ -1,0 +1,6 @@
+.DS_Store
+.claude/settings.local.json
+.claude/worktrees/
+.omc/
+node_modules/
+mcp-servers/*/node_modules/
