@@ -1,4 +1,4 @@
-# Everything Claude Code Mobile
+# Everything AI Code Mobile
 
 [![Stars](https://img.shields.io/github/stars/ahmed3elshaer/everything-claude-code-mobile?style=flat)](https://github.com/ahmed3elshaer/everything-claude-code-mobile/stargazers)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
